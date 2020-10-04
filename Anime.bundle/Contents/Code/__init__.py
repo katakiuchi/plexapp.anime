@@ -305,3 +305,50 @@ def GetXML(theUrl, use_html_parser=False):
 
 
 ####################################################################################################
+
+def prestazioni_nn(model_fit, metric_name, loss_name):
+  '''
+  plots nn performance 
+  '''
+  accuracy = model_fit.history[metric_name]
+  val_acc = model_fit.history['val_' + metric_name]
+  loss = model_fit.history[loss_name]
+  val_loss = model_fit.history['val_' + loss_name]
+  epochs = range(len(accuracy))
+
+  rot = 'horizontal'
+  if len(epochs) > 25:
+    rot = 'vertical'
+
+  plt.figure(figsize=(16, 6))
+
+  plt.subplot(121)
+  plt.plot(epochs, accuracy, 'bo', label='Training accuracy',
+       color='black')
+  plt.plot(epochs, val_acc, 'b', label='Validation accuracy',
+       color='red')
+  plt.title('Training - Validation accuracy')
+  plt.xticks(np.arange(len(epochs)), 
+         range(1, len(epochs) + 1),
+         rotation=rot)
+  plt.ylabel('Accuracy')
+  plt.xlabel('Epochs')
+  plt.grid(linewidth=0.3)
+  plt.legend()
+
+
+  plt.subplot(122)
+  plt.plot(epochs, loss, 'bo', label='Training loss',
+       color='black')
+  plt.plot(epochs, val_loss, 'b', label='Validation loss',
+       color='red')
+  plt.title('Training - Validation loss')
+  plt.xticks(np.arange(len(epochs)), 
+         range(1, len(epochs) + 1),
+         rotation=rot)
+  plt.ylabel('Loss')
+  plt.xlabel('Epochs')
+  plt.grid(linewidth=0.3)
+  plt.legend()
+  plt.show()
+
